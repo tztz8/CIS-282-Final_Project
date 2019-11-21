@@ -1,0 +1,68 @@
+To turn in:
+
+Attach a file connectfour_lastname.rb as an attachment to the assignment in Canvas.
+
+To do:
+
+Create a Ruby program using double arrays which simulates the "Connect Four" game.
+You will have a user play against the computer (like Rock Paper Scissors).
+
+The program should print out a "board" for the user to see on EVERY turn,
+by clearing the screen first and then printing the board and the "menu" for the user to select his turn.
+
+Playing will be done in the command console, not RubyMine.
+
+The program should:
+
+    prompt the user for their turn,
+    get the user's selection,  (Column 1 through 8)
+    place the piece in the double array,
+    reprint the screen,
+    Internally check to see if the user won and quit if they did with a "win" message
+    Show the computer's turn
+        get the computer's selection,  (random number for Column 1 through 8)
+        place the piece in the double array,
+    reprint the screen
+    Internally check to see if the computer won and quit if they did with a "win" message
+    repeat
+
+The board should be an 8 x 8 board of playable positions.  A piece can only go into one of 8 slots (columns).
+A piece must "slide" down to the last available space.  It cannot "hang" in mid air.
+
+After each turn, you need to check to see if you or the computer has won with the last move.
+This means that there are 4 pieces in a row anywhere on the board:  horizontally, vertically, or diagonally.
+
+Example Board:
+
+1 2 3 4 5 6 7 8
+. . . . . . . .
+. . . . . . . .
+. . . . . . . .
+. . . . . . . .
+. . . . . . . .
+. . . . . . . .
+0 . . . . . . .
+X . . . . . . .
+Select a column to place your piece (X):
+
+Extra Credit:
+
+20 pts: Make it "pretty" (connectfour_pretty_lastname.rb) using the extended ASCII character set like this:
+
+╔═══╦═══╦═══╦═══╦═══╦═══╦═══╦═══╗
+║ 1 ║ 2 ║ 3 ║ 4 ║ 5 ║ 6 ║ 7 ║ 8 ║
+╠═══╬═══╬═══╬═══╬═══╬═══╬═══╬═══╣
+║ . ║ . ║ . ║ . ║ . ║ . ║ . ║ . ║
+║ . ║ . ║ . ║ . ║ . ║ . ║ . ║ . ║
+║ . ║ . ║ . ║ . ║ . ║ . ║ . ║ . ║
+║ . ║ . ║ . ║ . ║ . ║ . ║ . ║ . ║
+║ . ║ . ║ . ║ . ║ . ║ . ║ . ║ . ║
+║ . ║ . ║ . ║ . ║ . ║ . ║ . ║ . ║
+║ . ║ . ║ . ║ . ║ . ║ . ║ . ║ . ║
+║ █ ║ █ ║ . ║ . ║ . ║ . ║ . ║ . ║
+╚═══╩═══╩═══╩═══╩═══╩═══╩═══╩═══╝
+Select a column to place your piece (█):
+
+20 pts: Make a separate Player vs. Player version (connectfour_pvp_lastname.rb)
+
+20 pts: Make a separate Computer vs. Computer version (connectfour_cvc_lastname.rb)
