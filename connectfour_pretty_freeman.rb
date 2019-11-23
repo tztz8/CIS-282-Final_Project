@@ -1,7 +1,7 @@
 ############################################################
 #
 #  Name:        Timbre Freeman
-#  Assignment:  Connect Four - Final Project
+#  Assignment:  Connect Four - Final Project - EC Pretty
 #  Date:        11/13/2019
 #  Class:       CIS 282
 #  Description: Connect Four game using ruby and terminal
