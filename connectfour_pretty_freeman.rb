@@ -16,7 +16,7 @@ $default_game_piece = '.'
 $size_to_win = 4
 $debug = false
 # print screen
-def print_screen(board)
+def print_screen_old(board)
   puts ""
   # print the top
   for i in 1..$column_size
@@ -31,6 +31,34 @@ def print_screen(board)
     end
     puts ""
   end
+end
+def print_screen(board)
+  puts ""
+  # print the top
+  # ╔═══╦═══╦═══╦═══╦═══╦═══╦═══╦═══╗
+  print "╔═══"
+  print "╦═══"*($column_size-2)
+  puts "╦═══╗"
+  for i in 1..$column_size
+    print "║ #{i} "
+  end
+  puts "║"
+  # ╠═══╬═══╬═══╬═══╬═══╬═══╬═══╬═══╣
+  print "╠═══"
+  print "╬═══"*($column_size-2)
+  puts "╬═══╣"
+  # print the game board
+  for i in 0...$column_size
+    for j in 0...$column_size
+      # print each piece
+      print "║ #{board[i][j]} "
+    end
+    puts "║"
+  end
+  # print bottom
+  print "╚═══"
+  print "╩═══"*($column_size-2)
+  puts "╩═══╝"
 end
 # check to see if the user won
 def check_win(game_board)

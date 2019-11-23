@@ -1,7 +1,7 @@
 ############################################################
 #
 #  Name:        Timbre Freeman
-#  Assignment:  Connect Four - Final Project
+#  Assignment:  Connect Four - Final Project - E.C. CvC
 #  Date:        11/13/2019
 #  Class:       CIS 282
 #  Description: Connect Four game using ruby and terminal
@@ -118,39 +118,30 @@ super_i = 0
 while run_program
   #get the user's selection
   # check if the user input works //this will let me put in a check if the column is full
-  user_input_works = false
-  while !user_input_works
-    # print the game board
-    print_screen(game_board)
-    # prompt the user for their turn
-    print "Select a column to place your piece (#{$player1_game_piece}): "
-    player1_column = gets.chomp.to_i
-    # check if the user select a column
-    if player1_column <= $column_size
-      # check if the column is full
-      if game_board[0][player1_column-1] != $default_game_piece
-        puts "Column #{player1_column} is full"
-      else
-        user_input_works = true
-      end
-    else
-      puts "you must pick a column that exists"
+  puts "computer1 thinking..."
+  input_works = false
+  while !input_works
+    player1_column = rand(1..$column_size)
+    # check if the column is full
+    if game_board[0][player1_column-1] == $default_game_piece
+      input_works = true
     end
   end
+  puts "computer1 chose column #{player1_column}"
   # place the piece in the double array
   insert_game_piece(game_board, player1_column, $player1_game_piece)
   # reprint the screen
   print_screen(game_board)
-  # check if there is a win for player 1
+  # check to see if the computer won
   check_win_output = check_win(game_board)
   puts check_win_output if $debug
   if (check_win_output == $player1_game_piece)
-    puts "Player win"
+    puts "Computer1 win"
     run_program = false
   else
     # Show the computer's turn
     # get the computer's selection
-    puts "computer thinking..."
+    puts "computer2 thinking..."
     input_works = false
     while !input_works
       player2_column = rand(1..$column_size)
@@ -159,7 +150,7 @@ while run_program
         input_works = true
       end
     end
-    puts "computer chose column #{player2_column}"
+    puts "computer2 chose column #{player2_column}"
     # place the piece in the double array
     insert_game_piece(game_board, player2_column, $player2_game_piece)
     # reprint the screen
@@ -168,7 +159,7 @@ while run_program
     check_win_output = check_win(game_board)
     puts check_win_output if $debug
     if (check_win_output == $player2_game_piece)
-      puts "Computer win"
+      puts "Computer2 win"
       run_program = false
     end
   end
