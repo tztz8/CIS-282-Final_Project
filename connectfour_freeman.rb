@@ -110,6 +110,15 @@ def insert_game_piece(game_board, player_column, player_game_piece)
     end
   end
 end
+# pause and clear screen
+def pause(userinput = true)
+  if (userinput)
+    print("Press enter to continue")
+    gets
+  end
+  system "clear"
+  system "cls"
+end
 # making the game board
 game_board = Array.new($column_size) {Array.new($column_size, $default_game_piece)}
 # run the game
@@ -125,8 +134,9 @@ while run_program
     # prompt the user for their turn
     print "Select a column to place your piece (#{$player1_game_piece}): "
     player1_column = gets.chomp.to_i
+    pause(false)
     # check if the user select a column
-    if player1_column <= $column_size
+    if ((player1_column <= $column_size) && (player1_column > 0))
       # check if the column is full
       if game_board[0][player1_column-1] != $default_game_piece
         puts "Column #{player1_column} is full"
@@ -134,13 +144,14 @@ while run_program
         user_input_works = true
       end
     else
-      puts "you must pick a column that exists"
+      puts "#{player1_column} column dose not exists"
     end
   end
   # place the piece in the double array
   insert_game_piece(game_board, player1_column, $player1_game_piece)
   # reprint the screen
   print_screen(game_board)
+  pause()
   # check if there is a win for player 1
   check_win_output = check_win(game_board)
   puts check_win_output if $debug
@@ -164,6 +175,7 @@ while run_program
     insert_game_piece(game_board, player2_column, $player2_game_piece)
     # reprint the screen
     print_screen(game_board)
+    pause()
     # check to see if the computer won
     check_win_output = check_win(game_board)
     puts check_win_output if $debug
@@ -176,8 +188,9 @@ while run_program
   super_i = super_i + 1
   if (super_i == (($column_size*$column_size)/2))
     run_program = false
-    print_screen(game_board)
     puts "tie"
   end
 end
+print_screen(game_board)
+pause()
 puts "Thanks for playing"

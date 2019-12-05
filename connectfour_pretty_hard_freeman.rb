@@ -1,7 +1,7 @@
 ############################################################
 #
 #  Name:        Timbre Freeman
-#  Assignment:  Connect Four - Final Project - EC PvP
+#  Assignment:  Connect Four - Final Project - Not only rand
 #  Date:        11/13/2019
 #  Class:       CIS 282
 #  Description: Connect Four game using ruby and terminal
@@ -16,7 +16,7 @@ $default_game_piece = '.'
 $size_to_win = 4
 $debug = false
 # print screen
-def print_screen(board)
+def print_screen_old(board)
   puts ""
   # print the top
   for i in 1..$column_size
@@ -32,8 +32,36 @@ def print_screen(board)
     puts ""
   end
 end
+def print_screen(board)
+  puts ""
+  # print the top
+  # ╔═══╦═══╦═══╦═══╦═══╦═══╦═══╦═══╗
+  print "╔═══"
+  print "╦═══"*($column_size-2)
+  puts "╦═══╗"
+  for i in 1..$column_size
+    print "║ #{i} "
+  end
+  puts "║"
+  # ╠═══╬═══╬═══╬═══╬═══╬═══╬═══╬═══╣
+  print "╠═══"
+  print "╬═══"*($column_size-2)
+  puts "╬═══╣"
+  # print the game board
+  for i in 0...$column_size
+    for j in 0...$column_size
+      # print each piece
+      print "║ #{board[i][j]} "
+    end
+    puts "║"
+  end
+  # print bottom
+  print "╚═══"
+  print "╩═══"*($column_size-2)
+  puts "╩═══╝"
+end
 # check to see if the user won
-def check_win(game_board)
+def check_win(game_board, size_to_win = $size_to_win)
   for i in 0...$column_size
     for j in 0...$column_size
       # see if there is a piece
@@ -44,18 +72,18 @@ def check_win(game_board)
         puts "*DEBUG*--game_piece=#{game_piece}--" if $debug
         pieces = 1 # count the pieces
         # check if 4 in a row right
-        for k in 1...$size_to_win
+        for k in 1...size_to_win
           if game_board[i][j+k] == game_piece
             pieces = pieces + 1 # count the pieces
           end
         end
         puts "*DEBUG*--pieces=#{pieces}--" if $debug
         # check if 4 in a row down right
-        if (pieces != $size_to_win)
+        if (pieces != size_to_win)
           pieces = 1# reset the count for pieces
-          if ((i+$size_to_win-1) < $column_size)
-            if ((j+$size_to_win-1) < $column_size)
-              for k in 1...$size_to_win
+          if ((i+size_to_win-1) < $column_size)
+            if ((j+size_to_win-1) < $column_size)
+              for k in 1...size_to_win
                 if game_board[i+k][j+k] == game_piece
                   pieces = pieces + 1 # count the pieces
                 end
@@ -65,11 +93,11 @@ def check_win(game_board)
           puts "*DEBUG*--pieces=#{pieces}--" if $debug
         end
         # check if 4 in a row down left
-        if (pieces != $size_to_win)
+        if (pieces != size_to_win)
           pieces = 1# reset the count for pieces
-          if ((i+$size_to_win-1) < $column_size)
-            if ((j-($size_to_win-1)) < $column_size)
-              for k in 1...$size_to_win
+          if ((i+size_to_win-1) < $column_size)
+            if ((j-(size_to_win-1)) < $column_size)
+              for k in 1...size_to_win
                 if game_board[i+k][j-k] == game_piece
                   pieces = pieces + 1 # count the pieces
                 end
@@ -79,10 +107,10 @@ def check_win(game_board)
           puts "*DEBUG*--pieces=#{pieces}--" if $debug
         end
         # check if 4 in a column
-        if (pieces != $size_to_win)
+        if (pieces != size_to_win)
           pieces = 1# reset the count for pieces
-          if ((i+($size_to_win-1)) < $column_size)
-            for k in 1...$size_to_win
+          if ((i+(size_to_win-1)) < $column_size)
+            for k in 1...size_to_win
               if game_board[i+k][j] == game_piece
                 pieces = pieces + 1 # count the pieces
               end
@@ -90,7 +118,7 @@ def check_win(game_board)
           end
           puts "*DEBUG*--pieces=#{pieces}--" if $debug
         end
-        if (pieces == $size_to_win)
+        if (pieces == size_to_win)
           return game_piece
         end
       end
@@ -98,19 +126,25 @@ def check_win(game_board)
   end
 end
 # place piece in game board
-def insert_game_piece(game_board, player_column, player_game_piece)
+def insert_game_piece(board, player_column, player_game_piece)
   # place the piece in the double array
   insert_complete = false
   for i in 1..$column_size
-    if (game_board[$column_size-i][player_column-1] == $default_game_piece)
+    if (board[$column_size-i][player_column-1] == $default_game_piece)
       if (!insert_complete)
-        game_board[$column_size-i][player_column-1] = player_game_piece
+        board[$column_size-i][player_column-1] = player_game_piece
         insert_complete = true
       end
     end
   end
+  return board
 end
-def clear()
+# pause and clear screen
+def pause(userinput = true)
+  if (userinput)
+    print("Press enter to continue")
+    gets
+  end
   system "clear"
   system "cls"
 end
@@ -127,9 +161,9 @@ while run_program
     # print the game board
     print_screen(game_board)
     # prompt the user for their turn
-    print "Player 1 Select a column to place your piece (#{$player1_game_piece}): "
+    print "Select a column to place your piece (#{$player1_game_piece}): "
     player1_column = gets.chomp.to_i
-    clear()
+    pause(false)
     # check if the user select a column
     if ((player1_column <= $column_size) && (player1_column > 0))
       # check if the column is full
@@ -143,42 +177,70 @@ while run_program
     end
   end
   # place the piece in the double array
-  insert_game_piece(game_board, player1_column, $player1_game_piece)
+  game_board = insert_game_piece(game_board, player1_column, $player1_game_piece)
+  # reprint the screen
+  print_screen(game_board)
+  pause()
   # check if there is a win for player 1
   check_win_output = check_win(game_board)
   puts check_win_output if $debug
   if (check_win_output == $player1_game_piece)
-    puts "Player 1 win"
+    puts "Player win"
     run_program = false
   else
-    # let the player 2 go
-    user_input_works = false
-    while !user_input_works
-      # print the game board
-      print_screen(game_board)
-      # prompt the user for their turn
-      print "Player 2 Select a column to place your piece (#{$player2_game_piece}): "
-      player2_column = gets.chomp.to_i
-      clear()
-      # check if the user select a column
-      if ((player2_column <= $column_size) && (player2_column > 0))
-        # check if the column is full
-        if game_board[0][player2_column-1] != $default_game_piece
-          puts "Column #{player2_column} is full"
-        else
-          user_input_works = true
+    # Show the computer's turn
+    # get the computer's selection
+    puts "computer thinking..."
+    close_to_win = check_win(game_board, $size_to_win-1)
+    input_works = false
+    while !input_works
+      player2_column = 0
+      # check if it can win
+      for i in 0...$column_size
+        # have a separate copy to look at
+        computers_game_board = Marshal.load(Marshal.dump(game_board))
+        if computers_game_board[0][i] == $default_game_piece
+          computers_game_board = insert_game_piece(computers_game_board, i, $player2_game_piece);
+          if check_win(computers_game_board) == $player2_game_piece
+            player2_column = i
+          end
         end
-      else
-        puts "you must pick a column that exists"
+        print_screen(computers_game_board) if $debug
+      end
+      if player2_column == 0
+        # check if the player will win in the next move
+        for i in 0...$column_size
+          # have a separate copy to look at
+          computers_game_board = Marshal.load(Marshal.dump(game_board))
+          if computers_game_board[0][i] == $default_game_piece
+            computers_game_board = insert_game_piece(computers_game_board, i, $player1_game_piece);
+            if check_win(computers_game_board) == $player1_game_piece
+              player2_column = i
+            end
+          end
+          print_screen(computers_game_board) if $debug
+        end
+      end
+      if player2_column == 0
+        # pick a rand column if nether are true
+        player2_column = rand(1..$column_size)
+      end
+      # check if the column is full
+      if game_board[0][player2_column-1] == $default_game_piece
+        input_works = true
       end
     end
+    puts "computer chose column #{player2_column}"
     # place the piece in the double array
-    insert_game_piece(game_board, player2_column, $player2_game_piece)
+    game_board = insert_game_piece(game_board, player2_column, $player2_game_piece)
+    # reprint the screen
+    print_screen(game_board)
+    pause()
     # check to see if the computer won
     check_win_output = check_win(game_board)
     puts check_win_output if $debug
     if (check_win_output == $player2_game_piece)
-      puts "Player 2 win"
+      puts "Computer win"
       run_program = false
     end
   end
@@ -186,9 +248,9 @@ while run_program
   super_i = super_i + 1
   if (super_i == (($column_size*$column_size)/2))
     run_program = false
-
     puts "tie"
   end
 end
 print_screen(game_board)
+pause()
 puts "Thanks for playing"
